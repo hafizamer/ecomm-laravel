@@ -3,10 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
     function index(){
-        return "This is Product page";
+        $data=Product::all();
+        return view('product',['products'=>$data]);
+    }
+
+    function detail($id){
+        $data=Product::find($id);
+        return view('detail',['product'=>$data]);
+    }
+    function search(Request $request){
+
+
+        $data=Product::where('name', 'like', '%'.$request->input('query').'%')->get();
+        return view('search',['products'=>$data]);
     }
 }
